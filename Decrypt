@@ -1,0 +1,54 @@
+void decryptData_01(char* data, int sized)
+{
+    int resultA = 0;
+
+    __asm {
+
+        xor eax, eax // variable
+        xor edx, edx // variable
+        xor ecx, ecx // index
+        xor ebx, ebx // counter 
+        xor esi, esi
+        xor edi, edi
+
+        //gPasswordHash[0]
+        lea esi, gPasswordHash
+        mov al, byte ptr[esi + 0]
+
+        //gPasswordHash[0] * 256
+        shl ax, 8
+
+        //gPasswordHash[1]
+        mov cl, byte ptr[esi + 1]
+
+        //gPasswordHash[0] + gPasswordHash[1] == index == eax
+        add ax, cx
+
+        //Clear registers
+        xor esi, esi
+        xor edx, edx
+        xor ecx, ecx
+        xor edi, edi
+
+        mov ebx, 0
+        //ecx == sized
+        mov ecx, sized
+
+        mov edi, data
+        mov esi, gptrKey
+
+        loop1 :
+        //data[x]
+        mov dl, byte ptr[edi + ebx]
+            //data[x]^gkey[index]
+            xor dl, byte ptr[esi + eax]
+            //data[x]=(dl)
+            mov byte ptr[edi + ebx], dl
+            //x++
+            inc ebx
+            cmp ebx, ecx
+            jnz loop1
+    }
+
+    return;
+}
