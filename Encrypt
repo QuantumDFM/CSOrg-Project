@@ -4,10 +4,6 @@ xor eax, eax
 
        // lea esi, gPasswordHash
         mov esi, gptrPasswordHash
-
-
-
-
         //set eax to 0
         
         //store the first value of the password array into al
@@ -24,15 +20,13 @@ xor eax, eax
 
         add al, cl
 
-
-
         //set ebx to 0
         //ebx is the variable of the loop
         xor ebx, ebx
         //set ecx to 0
         xor ecx, ecx
         // set ecx as the length of the data
-        mov ecx, dataLength
+        mov ecx, datalength
         //if to check if ecx that is the data Length is less or equal 0
         cmp ecx, 0
         //ecx-- to reduce the length 
@@ -66,13 +60,13 @@ xor eax, eax
         // ebx -1 after ebx is length 0
         sub ebx, 1
             //call method to exit and set resultA
-            jmp label_EXIT
+        jmp label_EXIT
 
-            label_EXITE :
-        //set ebx to 0
-        xor ebx, ebx
+        label_EXITE:
+                //set ebx to 0
+            xor ebx, ebx
 
-            label_EXIT :
+        label_EXIT :
         //mov resultA, ebx
     }
     return;
