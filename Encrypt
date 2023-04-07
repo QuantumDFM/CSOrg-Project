@@ -1,0 +1,78 @@
+xor eax, eax
+        //lea esi, gkey
+        mov esi, gptrKey
+
+       // lea esi, gPasswordHash
+        mov esi, gptrPasswordHash
+
+
+
+
+        //set eax to 0
+        
+        //store the first value of the password array into al
+        mov al, byte ptr[esi]
+        //shift left the value of ax 8 times
+
+        shl al, 8
+        //set ecx to 0
+        xor ecx, ecx
+        //set the cl value to the password[1] value
+        mov cl, byte ptr[1 + esi]
+        //add the second value of password to ax and ax is now is the index of the file 
+        //ax = staring_index
+
+        add al, cl
+
+
+
+        //set ebx to 0
+        //ebx is the variable of the loop
+        xor ebx, ebx
+        //set ecx to 0
+        xor ecx, ecx
+        // set ecx as the length of the data
+        mov ecx, dataLength
+        //if to check if ecx that is the data Length is less or equal 0
+        cmp ecx, 0
+        //ecx-- to reduce the length 
+        sub ecx, 1
+        //CALL THE METHOD TO DECREMENT EBX TO -1 TO RETURN FAILURE 
+        jbe label_EXIT_ZEROL
+
+        //set the first data address into edi
+        mov edi, data
+        //set address of key into esi 
+        mov esi, gptrKey
+
+        //loop to go through the entire data array by byte
+        label_LOOP :
+        //set the byte pointer of the sum of ebx + edi into dl 
+        mov dl, byte ptr[ebx + edi]
+            //data[ebx] ^keyfile[the starting index]
+            xor dl, byte ptr[eax + esi]
+            add byte ptr[ebx + edi], dl
+
+            //ebx+1
+            add ebx, 1
+            //if ebx > ecx finish the loop
+            cmp ebx, ecx
+            //call exit end method to set ebx to 0
+            ja label_EXITE
+            //else go again in the loop
+            jmp label_LOOP
+
+            label_EXIT_ZEROL :
+        // ebx -1 after ebx is length 0
+        sub ebx, 1
+            //call method to exit and set resultA
+            jmp label_EXIT
+
+            label_EXITE :
+        //set ebx to 0
+        xor ebx, ebx
+
+            label_EXIT :
+        //mov resultA, ebx
+    }
+    return;
