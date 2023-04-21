@@ -1,0 +1,27 @@
+/*Part A*/
+            
+        xor ecx, ecx			//Temp 0 size           
+        lea ecx, gEncodeTable		//ecx = gdc          
+        mov dl, byte ptr[ecx + edx]	//dl = gDecodeTabe[edx]
+        
+	/*Part B*/ 
+          
+        rcl dl, 4			//reverse bytes
+        
+	/*Part C*/
+          
+        mov dh, dl			//Copy dl to dh          
+        and dl, 11110000b		//Seperate 4 bytes           
+        and dh, 00001111b		//Seperate other 4 bytes           
+        stc				//Set the carry flag           
+        rcl dl, 6			//Move to the begining of the 8 bytes then rotate 1 more         
+        and dl, 11110000b		//clear the top 4 bytes          
+        rol dh, 1			//Rotate 1 left for other digit           
+        add dl, dh			//Add the digits together            
+        xor dh, dh			//Clear the top of the register
+            
+  /*Part D*/
+        xor dl, 0x62
+
+  /*Part E*/
+        rol dl, 3
